@@ -1,34 +1,58 @@
-// swagger.js
-// This file configures Swagger JSDoc and Swagger UI Express.
-
 const swaggerJsdoc = require("swagger-jsdoc");
 const swaggerUi = require("swagger-ui-express");
-const path = require('path'); // Import the 'path' module for robust path resolution.
+const path = require("path");
 
-// Options for swagger-jsdoc.
 const options = {
   definition: {
-    openapi: "3.0.0", // Specify the OpenAPI version.
+    openapi: "3.0.0",
     info: {
-      title: "Online Retail API", // Title of your API documentation.
-      version: "1.0.0", // Version of your API.
-      description: "A simple CRUD API for online retail data using Node.js, Express, and PostgreSQL, documented with Swagger.",
+      title: "Online Retail API",
+      version: "1.0.0",
+      description:
+        "A simple CRUD API for online retail data using Node.js, Express, and PostgreSQL, documented with Swagger.",
     },
     servers: [
       {
-        url: "http://localhost:3001", // Base URL for your API.
+        url: "http://localhost:3001",
         description: "Development server",
       },
     ],
+    components: {
+      schemas: {
+        Product: {
+          type: "object",
+          properties: {
+            invoice_no: { type: "string" },
+            stock_code: { type: "string" },
+            description: { type: "string" },
+            quantity: { type: "integer" },
+            invoice_date: { type: "string", format: "date-time" },
+            unit_price: { type: "number", format: "float" },
+            customer_id: { type: "integer" },
+            country: { type: "string" },
+          },
+          required: ["invoice_no", "stock_code", "quantity", "invoice_date", "unit_price", "country"],
+        },
+        ProductInput: {
+          type: "object",
+          properties: {
+            invoice_no: { type: "string" },
+            stock_code: { type: "string" },
+            description: { type: "string" },
+            quantity: { type: "integer" },
+            invoice_date: { type: "string", format: "date-time" },
+            unit_price: { type: "number", format: "float" },
+            customer_id: { type: "integer" },
+            country: { type: "string" },
+          },
+          required: ["invoice_no", "stock_code", "quantity", "invoice_date", "unit_price", "country"],
+        },
+      },
+    },
   },
-  // Define the paths to the API documentation files.
-  // Using path.join(__dirname, './routes/*.js') ensures the path is resolved correctly
-  // regardless of the current working directory when the application starts.
-  apis: [path.join(__dirname, './routes/*.js')],
+  apis: [path.join(__dirname, "./routes/*.js")],
 };
 
-// Initialize swagger-jsdoc with the defined options.
 const swaggerSpec = swaggerJsdoc(options);
 
-// Export swaggerUi and swaggerSpec for use in your main application file.
 module.exports = { swaggerUi, swaggerSpec };
